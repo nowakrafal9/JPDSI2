@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html 
+
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
+<h:head>
+	<title>Kalkulator kredytowy</title>
+</h:head>
+
+<h:body>
+
+	<h1>Kalulator raty kredytu</h1>
+
+	<h:form id="form">
+	
+  		<p> Kwota: <h:inputText value="#{creditBB.amount}" /> </p>
+  		<p> Lata: <h:inputText value="#{creditBB.years}" /> </p>
+		<p> Oprocentowanie: 
+			<h:selectOneMenu value = "#{creditBB.percent}">
+				<f:selectItem itemValue = "4" itemLabel = "4%" /> 
+				<f:selectItem itemValue = "5" itemLabel = "5%" />
+				<f:selectItem itemValue = "6" itemLabel = "6%" /> 
+				<f:selectItem itemValue = "7" itemLabel = "7%" /> 
+				<f:selectItem itemValue = "8" itemLabel = "8%" /> 
+			</h:selectOneMenu>
+		</p>
+		<p> Ilość rat w roku: 
+			<h:selectOneMenu value = "#{creditBB.instPerYear}">
+				<f:selectItem itemValue = "12" itemLabel = "Miesięczne" /> 
+				<f:selectItem itemValue = "4" itemLabel = "Kwartalne" />
+				<f:selectItem itemValue = "2" itemLabel = "Co pół roku" /> 
+			</h:selectOneMenu>
+		</p>
+		
+		<h:messages id="msg" />
+
+		<h:commandButton value="Oblicz" action="#{creditBB.calc()}"/>
+		<h:commandButton value="Oblicz (AJAX)" action="#{creditBB.calc_AJAX()}">
+			<f:ajax execute="@form" render="msg" />
+		</h:commandButton>
+		
+	</h:form>
+
+</h:body>
+</html>
