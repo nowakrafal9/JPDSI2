@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html 
+
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition template="/templates/page-template.xhtml">
+	
+	<ui:define name="pageContent">
+
+		<p:panel>
+			<h:form id="form">
+				
+				<p:panelGrid columns="3" styleClass="ui-noborder">
+					
+					<h:outputLabel for="amount" value="Kwota:" />
+					<p:inputText id="amount" value="#{creditBB.amount}" 
+						required="true" requiredMessage="Nie podano kwoty." 
+						converterMessage="Kwota musi być liczbą"
+						validatorMessage="Kwota nie może być mniejsza niż 5000zł">
+						<f:validateLongRange minimum="5000" />
+					</p:inputText>
+					<p:message for="amount" />
+	
+					<h:outputLabel for="years" value="Liczba lat:" />
+					<p:inputText id="years" value="#{creditBB.years}" 
+						required="true" requiredMessage="Nie podano lat kredytu."
+						converterMessage="Liczba lat musi być liczbą całkowitą."
+						validatorMessage="Liczba lat nie może być mniejsza niż 1 rok.">
+						<f:validateLongRange minimum="1" />
+					</p:inputText>
+					<p:message for="years" />
+					
+	
+					<h:outputLabel for="percent" value="Oprocentowanie:" />
+					<h:panelGrid columns="1" style="margin-bottom: 10px">
+			        	<p:inputText id="percent" value="#{creditBB.percent}" />
+			            <p:slider for="percent" minValue="1" maxValue="15" step="0.1" range="min"/>
+			      	</h:panelGrid>
+		     		
+		        	<div class="p-field p-col-12 p-md-4">
+		                <h:outputLabel for="intPerYear" value="Ilość rat w roku:"/>
+		                <p:selectOneMenu id="intPerYear" value="#{creditBB.instPerYear}" hideNoSelectionOption="#{not empty selectOneMenuView.hideNoSelectOption}">
+		                    <p:ajax update="@this" process="@this"/>
+		                    <f:selectItem itemLabel="Miesięczne" itemValue="12"/>
+		                    <f:selectItem itemLabel="Kwartalne" itemValue="4"/>
+		                    <f:selectItem itemLabel="Co pół roku" itemValue="2"/>
+		                </p:selectOneMenu>
+	            	</div>
+	            	
+	            	<p:commandButton value="Oblicz" action="#{creditBB.calc()}" update="@form" styleClass="rounded-button"/>
+	            	<p:commandButton value="Oblicz(Ajax)" action="#{creditBB.calc_AJAX()}" update="msg" styleClass="rounded-button"/>
+	            	
+				</p:panelGrid>
+	
+			</h:form>
+			<p:messages id="msg" />
+		</p:panel>
+		
+	</ui:define>
+	
+</ui:composition>
+
+</html>
